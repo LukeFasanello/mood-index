@@ -5,7 +5,6 @@ const { body, validationResult } = require('express-validator');
 exports.createMoodValidation = [
   body('entry_date')
     .isISO8601()
-    .toDate()
     .withMessage('Must be a valid date'),
   body('mood_value')
     .isInt({ min: -10, max: 10 })
@@ -30,11 +29,19 @@ exports.createMood = async (req, res) => {
     const { entry_date, mood_value, entry_text } = req.body;
     const userId = req.userId; // From auth middleware
 
-    // Insert mood entry
+    console.log('=== BACKEND DEBUG ===');
+    console.log('Received entry_date:', entry_date);
+    console.log('Type:', typeof entry_date);
+
+
+    // Insert mood entry - PostgreSQL will handle the date properly
     const newMood = await pool.query(
       'INSERT INTO mood_entries (user_id, entry_date, mood_value, entry_text) VALUES ($1, $2, $3, $4) RETURNING *',
       [userId, entry_date, mood_value, entry_text || null]
     );
+
+    console.log('Stored in DB:', newMood.rows[0].entry_date);
+    console.log('Full row:', newMood.rows[0]);
 
     res.status(201).json({
       message: 'Mood entry created successfully',
