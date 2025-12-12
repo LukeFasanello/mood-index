@@ -60,7 +60,7 @@ function App() {
         ) : (
           <>
             <MoodChart moods={moods} />
-            <MoodList moods={moods} onMoodDeleted={fetchMoods} />
+            <MoodList moods={moods} onMoodDeleted={fetchMoods} onMoodUpdated={fetchMoods} />
           </>
         )}
       </div>

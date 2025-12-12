@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import api from '../utils/api';
+import EditMoodModal from './EditMoodModal';
+import { formatDate } from '../utils/dateHelpers';
 
-function MoodList({ moods, onMoodDeleted }) {
+function MoodList({ moods, onMoodDeleted, onMoodUpdated }) {
   const [deletingId, setDeletingId] = useState(null);
+  const [editingMood, setEditingMood] = useState(null);
 
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this entry?')) {
@@ -45,7 +48,7 @@ function MoodList({ moods, onMoodDeleted }) {
           <div key={mood.id} className="mood-entry">
             <div className="mood-header">
               <span className="mood-date">
-                {new Date(mood.entry_date).toLocaleDateString()}
+                {formatDate(mood.entry_date)}
               </span>
               <span 
                 className="mood-value"
@@ -57,16 +60,32 @@ function MoodList({ moods, onMoodDeleted }) {
             {mood.entry_text && (
               <p className="mood-text">{mood.entry_text}</p>
             )}
-            <button
-              onClick={() => handleDelete(mood.id)}
-              disabled={deletingId === mood.id}
-              className="delete-btn"
-            >
-              {deletingId === mood.id ? 'Deleting...' : 'Delete'}
-            </button>
+            <div className="mood-actions">
+              <button
+                onClick={() => setEditingMood(mood)}
+                className="edit-btn"
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => handleDelete(mood.id)}
+                disabled={deletingId === mood.id}
+                className="delete-btn"
+              >
+                {deletingId === mood.id ? 'Deleting...' : 'Delete'}
+              </button>
+            </div>
           </div>
         ))}
       </div>
+
+      {editingMood && (
+        <EditMoodModal
+          mood={editingMood}
+          onClose={() => setEditingMood(null)}
+          onMoodUpdated={onMoodUpdated}
+        />
+      )}
     </div>
   );
 }
