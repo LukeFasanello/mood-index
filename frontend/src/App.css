@@ -341,3 +341,97 @@ button:disabled {
 .edit-btn:hover {
   background: #535bf2;
 }
+
+/* Date Range Filter */
+.date-range-filter {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.date-range-filter button {
+  padding: 0.5rem 1rem;
+  background: #f0f0f0;
+  border: 2px solid transparent;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #242424;
+  transition: all 0.2s;
+}
+
+.date-range-filter button:hover {
+  background: #e0e0e0;
+}
+
+.date-range-filter button.active {
+  background: #646cff;
+  color: white;
+  border-color: #646cff;
+}
+
+/* View Mood Modal Styles */
+.view-modal {
+  max-width: 600px;
+}
+
+.view-mood-content {
+  text-align: center;
+}
+
+.view-mood-date {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #242424;
+  margin-bottom: 1rem;
+}
+
+.view-mood-value-container {
+  margin: 1.5rem 0;
+}
+
+.view-mood-value {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  border-radius: 30px;
+  color: white;
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+.view-mood-text {
+  background: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+  text-align: left;
+}
+
+.view-mood-text p {
+  margin: 0;
+  color: #333;
+  line-height: 1.6;
+}
+
+.view-mood-text.empty p {
+  color: #999;
+  font-style: italic;
+  text-align: center;
+}
+
+/* Tooltip hint */
+.tooltip-hint {
+  font-size: 0.8rem;
+  color: #999;
+  margin-top: 0.25rem;
+}
+
+.chart-hint {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+}
