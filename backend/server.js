@@ -4,6 +4,8 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const pool = require('./config/database');
 const authRoutes = require('./routes/authRoutes');
+const authMiddleware = require('./middleware/auth');
+const moodRoutes = require('./routes/moodRoutes');
 require('dotenv').config();
 
 const app = express();
@@ -36,10 +38,19 @@ app.use(express.json());
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/moods', moodRoutes);
 
 // Test routes
 app.get('/api/test', (req, res) => {
   res.json({ message: 'Backend is working!' });
+});
+
+// Protected test route
+app.get('/api/protected', authMiddleware, (req, res) => {
+  res.json({ 
+    message: 'You are authenticated!',
+    userId: req.userId 
+  });
 });
 
 app.get('/api/db-test', async (req, res) => {
