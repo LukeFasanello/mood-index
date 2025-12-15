@@ -1,3 +1,28 @@
+/* Override global button styles for filter buttons */
+.chart-filters button {
+  all: unset;
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 0.4rem 0.9rem;
+  background: transparent;
+  border: 2px solid #646cff;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: inherit;
+  color: #646cff;
+  transition: all 0.2s;
+}
+
+.chart-filters button:hover {
+  background: rgba(100, 108, 255, 0.1);
+}
+
+.chart-filters button.active {
+  background: #646cff;
+  color: white;
+}
+
 body, #root {
   overflow-x: hidden;
 }
@@ -49,23 +74,24 @@ body, #root {
   color: white !important;
   margin: 0;
   margin-right: auto;
+  font-family: sans-serif;
 }
 
 /* Colorful "Mood" letters */
 .letter-m {
-  color: #4285f4;
+  color: #4295f4;
 }
 
 .letter-o1 {
-  color: #ea4335;
+  color: #ea6235;
 }
 
 .letter-o2 {
-  color: #fbbc04;
+  color: #fbce04;
 }
 
 .letter-d {
-  color: #34a853;
+  color: #34a840;
 }
 
 /* Navigation */
@@ -319,9 +345,9 @@ button:disabled {
 .mood-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-  margin-top: 2rem;
-  padding-top: 2rem;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
   max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
@@ -735,5 +761,25 @@ button:disabled {
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
   }
+
+  /* Chart Header with Filters */
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.chart-header h2 {
+  margin: 0;
+}
+
+.chart-filters {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
   
 }

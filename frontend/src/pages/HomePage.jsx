@@ -72,10 +72,8 @@ function HomePage() {
               <MoodChart 
                 moods={filteredMoods} 
                 onDataPointClick={handleDataPointClick}
-              />
-              <DateRangeFilter 
-                selectedRange={dateRange} 
-                onRangeChange={setDateRange} 
+                selectedRange={dateRange}
+                onRangeChange={setDateRange}
               />
             </div>
           )}

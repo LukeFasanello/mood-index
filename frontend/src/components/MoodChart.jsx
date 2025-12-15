@@ -1,6 +1,6 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-function MoodChart({ moods, onDataPointClick }) {
+function MoodChart({ moods, onDataPointClick, selectedRange, onRangeChange }) {
   if (moods.length === 0) {
     return null;
   }
@@ -65,10 +65,47 @@ function MoodChart({ moods, onDataPointClick }) {
 
   return (
     <div className="mood-chart">
-      <h2>Mood Over Time</h2>
+      <div className="chart-header">
+        <h2>Mood Over Time</h2>
+        <div className="chart-filters">
+          <button 
+            className={selectedRange === 'all' ? 'filter-btn active' : 'filter-btn'}
+            onClick={() => onRangeChange('all')}
+          >
+            All Time
+          </button>
+          <button 
+            className={selectedRange === '7' ? 'filter-btn active' : 'filter-btn'}
+            onClick={() => onRangeChange('7')}
+          >
+            7 Days
+          </button>
+          <button 
+            className={selectedRange === '30' ? 'filter-btn active' : 'filter-btn'}
+            onClick={() => onRangeChange('30')}
+          >
+            30 Days
+          </button>
+          <button 
+            className={selectedRange === '90' ? 'filter-btn active' : 'filter-btn'}
+            onClick={() => onRangeChange('90')}
+          >
+            90 Days
+          </button>
+        </div>
+      </div>
       <p className="chart-hint">Click on any point to view details</p>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={chartData}>
+          <defs>
+            <linearGradient id="moodGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#4caf50" /> {/* Green at top (10) */}
+              <stop offset="25%" stopColor="#8bc34a" /> {/* Light green */}
+              <stop offset="50%" stopColor="#ffc107" /> {/* Yellow at middle (0) */}
+              <stop offset="75%" stopColor="#ff9800" /> {/* Orange */}
+              <stop offset="100%" stopColor="#f44336" /> {/* Red at bottom (-10) */}
+            </linearGradient>
+          </defs>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="date" />
           <YAxis domain={[-10, 10]} />
@@ -88,20 +125,15 @@ function MoodChart({ moods, onDataPointClick }) {
           <Line 
             type="monotone" 
             dataKey="mood" 
-            stroke="#646cff" 
+            stroke="url(#moodGradient)"
             strokeWidth={3}
-            dot={{ 
-              fill: '#646cff', 
-              r: 6, 
+            dot={false} // Remove all dots by default
+            activeDot={{ 
+              r: 4,
+              fill: '#646cff',
               stroke: '#fff',
               strokeWidth: 2,
               cursor: 'pointer',
-              onClick: (e, payload) => {
-                handleDotClick(payload.payload);
-              }
-            }}
-            activeDot={{ 
-              r: 8,
               onClick: (e, payload) => {
                 handleDotClick(payload.payload);
               }
