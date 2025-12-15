@@ -33,7 +33,10 @@ app.use('/api/', limiter); // General rate limit for all API routes
 app.use('/api/auth/', authLimiter); // Stricter limit for auth routes
 
 // Other Middleware
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:5173', 'http://192.168.1.189:5173'],
+  credentials: true
+}));
 app.use(express.json());
 
 // Routes

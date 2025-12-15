@@ -15,11 +15,53 @@ function MoodChart({ moods, onDataPointClick }) {
     }));
 
   const handleDotClick = (data) => {
-    console.log('Dot clicked with data:', data);
     if (data && data.fullMood) {
       onDataPointClick(data.fullMood);
     }
   };
+
+  // Calculate statistics
+  const calculateStats = () => {
+    if (moods.length === 0) return null;
+
+    const moodValues = moods.map(m => m.mood_value);
+    const average = (moodValues.reduce((a, b) => a + b, 0) / moodValues.length).toFixed(1);
+    const highest = Math.max(...moodValues);
+    const lowest = Math.min(...moodValues);
+
+    // Calculate best/worst day of week
+    const dayOfWeekMoods = {};
+    moods.forEach(mood => {
+      const date = new Date(mood.entry_date.split('T')[0] + 'T12:00:00');
+      const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+      
+      if (!dayOfWeekMoods[dayName]) {
+        dayOfWeekMoods[dayName] = [];
+      }
+      dayOfWeekMoods[dayName].push(mood.mood_value);
+    });
+
+    const dayAverages = {};
+    Object.keys(dayOfWeekMoods).forEach(day => {
+      const avg = dayOfWeekMoods[day].reduce((a, b) => a + b, 0) / dayOfWeekMoods[day].length;
+      dayAverages[day] = avg;
+    });
+
+    const sortedDays = Object.entries(dayAverages).sort((a, b) => b[1] - a[1]);
+    const bestDay = sortedDays.length > 0 ? sortedDays[0][0] : 'N/A';
+    const worstDay = sortedDays.length > 0 ? sortedDays[sortedDays.length - 1][0] : 'N/A';
+
+    return {
+      average,
+      highest,
+      lowest,
+      bestDay,
+      worstDay,
+      totalEntries: moods.length
+    };
+  };
+
+  const stats = calculateStats();
 
   return (
     <div className="mood-chart">
@@ -55,20 +97,47 @@ function MoodChart({ moods, onDataPointClick }) {
               strokeWidth: 2,
               cursor: 'pointer',
               onClick: (e, payload) => {
-                console.log('Line dot onClick:', e, payload);
                 handleDotClick(payload.payload);
               }
             }}
             activeDot={{ 
               r: 8,
               onClick: (e, payload) => {
-                console.log('Active dot onClick:', e, payload);
                 handleDotClick(payload.payload);
               }
             }}
           />
         </LineChart>
       </ResponsiveContainer>
+
+      {stats && (
+        <div className="mood-stats">
+          <div className="stat-item">
+            <span className="stat-label">Average</span>
+            <span className="stat-value">{stats.average}</span>
+          </div>
+          <div className="stat-item">
+            <span className="stat-label">Highest</span>
+            <span className="stat-value positive">{stats.highest}</span>
+          </div>
+          <div className="stat-item">
+            <span className="stat-label">Lowest</span>
+            <span className="stat-value negative">{stats.lowest}</span>
+          </div>
+          <div className="stat-item">
+            <span className="stat-label">Best Day</span>
+            <span className="stat-value">{stats.bestDay}</span>
+          </div>
+          <div className="stat-item">
+            <span className="stat-label">Worst Day</span>
+            <span className="stat-value">{stats.worstDay}</span>
+          </div>
+          <div className="stat-item">
+            <span className="stat-label">Total Entries</span>
+            <span className="stat-value">{stats.totalEntries}</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

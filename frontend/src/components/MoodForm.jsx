@@ -1,45 +1,41 @@
 import { useState } from 'react';
+import DatePicker from 'react-datepicker';
 import api from '../utils/api';
 
 function MoodForm({ onMoodAdded }) {
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [moodValue, setMoodValue] = useState(0);
   const [entryText, setEntryText] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setError('');
-  setLoading(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
 
-  console.log('=== FRONTEND DEBUG ===');
-  console.log('Date input value:', date);
-  console.log('Sending to backend:', {
-    entry_date: date,
-    mood_value: parseInt(moodValue),
-    entry_text: entryText,
-  });
+    try {
+      // Format date as YYYY-MM-DD
+      const formattedDate = selectedDate.toISOString().split('T')[0];
 
-  try {
-    await api.post('/moods', {
-      entry_date: date,  // Just send the date string directly
-      mood_value: parseInt(moodValue),
-      entry_text: entryText,
-    });
+      await api.post('/moods', {
+        entry_date: formattedDate,
+        mood_value: parseInt(moodValue),
+        entry_text: entryText,
+      });
 
-    // Reset form
-    setDate(new Date().toISOString().split('T')[0]);
-    setMoodValue(0);
-    setEntryText('');
-    
-    onMoodAdded();
-  } catch (err) {
-    setError(err.response?.data?.error || 'Failed to add mood entry');
-  } finally {
-    setLoading(false);
-  }
-};
+      // Reset form
+      setSelectedDate(new Date());
+      setMoodValue(0);
+      setEntryText('');
+      
+      onMoodAdded();
+    } catch (err) {
+      setError(err.response?.data?.error || 'Failed to add mood entry');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="mood-form">
@@ -47,10 +43,12 @@ const handleSubmit = async (e) => {
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Date</label>
-          <input
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
+          <DatePicker
+            selected={selectedDate}
+            onChange={(date) => setSelectedDate(date)}
+            maxDate={new Date()}
+            dateFormat="MM/dd/yyyy"
+            className="date-picker-input"
             required
           />
         </div>
