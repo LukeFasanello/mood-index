@@ -36,7 +36,6 @@ function Register({ onRegisterSuccess }) {
 
   return (
     <div className="auth-form">
-      <h2>Register</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <input

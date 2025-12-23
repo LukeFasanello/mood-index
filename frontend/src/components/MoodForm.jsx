@@ -38,8 +38,8 @@ function MoodForm({ onMoodAdded }) {
   };
 
   return (
-    <div className="mood-form">
-      <h2>Add Mood Entry</h2>
+    <div className="mood-form section-container">
+      <h2 className="section-title">Add Mood Entry</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Date</label>

@@ -10,7 +10,7 @@ function HomePage() {
   const [moods, setMoods] = useState([]);
   const [filteredMoods, setFilteredMoods] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [dateRange, setDateRange] = useState('all');
+  const [dateRange, setDateRange] = useState('1M');
   const [viewingMood, setViewingMood] = useState(null);
   const [editingMood, setEditingMood] = useState(null);
 
@@ -40,7 +40,14 @@ function HomePage() {
       return;
     }
 
-    const days = parseInt(dateRange);
+    const daysMap = {
+      '1W': 7,
+      '1M': 30,
+      '3M': 90,
+      '1Y': 365
+    };
+
+    const days = daysMap[dateRange];
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - days);
 
@@ -69,11 +76,12 @@ function HomePage() {
         <>
           {moods.length > 0 && (
             <div className="chart-section">
-              <MoodChart 
-                moods={filteredMoods} 
+              <MoodChart
+                moods={filteredMoods}
                 onDataPointClick={handleDataPointClick}
                 selectedRange={dateRange}
                 onRangeChange={setDateRange}
+                onMoodAdded={fetchMoods}
               />
             </div>
           )}

@@ -30,29 +30,35 @@ function App() {
   if (!isAuthenticated) {
     return (
       <div className="App">
-        <h1>Mood Index</h1>
+        <h1>
+          <span className="letter-m">M</span>
+          <span className="letter-o1">o</span>
+          <span className="letter-o2">o</span>
+          <span className="letter-d">d</span>
+          {' '}<span className="index-text">Index</span>
+        </h1>
         <p>Track your mood every day</p>
-        
-        <div className="auth-toggle">
-          <button 
-            className={showLogin ? 'active' : ''}
-            onClick={() => setShowLogin(true)}
-          >
-            Login
-          </button>
-          <button 
-            className={!showLogin ? 'active' : ''}
-            onClick={() => setShowLogin(false)}
-          >
-            Register
-          </button>
-        </div>
 
         {showLogin ? (
           <Login onLoginSuccess={handleAuthSuccess} />
         ) : (
           <Register onRegisterSuccess={handleAuthSuccess} />
         )}
+
+        <div className="auth-toggle">
+          <button
+            className={showLogin ? 'active' : ''}
+            onClick={() => setShowLogin(true)}
+          >
+            Login
+          </button>
+          <button
+            className={!showLogin ? 'active' : ''}
+            onClick={() => setShowLogin(false)}
+          >
+            Register
+          </button>
+        </div>
       </div>
     );
   }
@@ -65,7 +71,7 @@ function App() {
           <span className="letter-o1">o</span>
           <span className="letter-o2">o</span>
           <span className="letter-d">d</span>
-          {' '}Index
+          {' '}<span className="index-text">Index</span>
         </h1>
         <nav className="nav-links">
           <Link to="/" className="nav-link">Home</Link>

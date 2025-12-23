@@ -33,16 +33,16 @@ function MoodList({ moods, onMoodDeleted, onMoodUpdated }) {
 
   if (moods.length === 0) {
     return (
-      <div className="mood-list">
-        <h2>Your Mood History</h2>
+      <div className="mood-list section-container">
+        <h2 className="section-title">Your Mood History</h2>
         <p>No mood entries yet. Add your first one above!</p>
       </div>
     );
   }
 
   return (
-    <div className="mood-list">
-      <h2>Your Mood History</h2>
+    <div className="mood-list section-container">
+      <h2 className="section-title">Your Mood History</h2>
       <div className="mood-entries">
         {moods.map((mood) => (
           <div key={mood.id} className="mood-entry">

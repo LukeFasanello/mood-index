@@ -1,6 +1,9 @@
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { useState } from 'react';
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
+import AddMoodModal from './AddMoodModal';
 
-function MoodChart({ moods, onDataPointClick, selectedRange, onRangeChange }) {
+function MoodChart({ moods, onDataPointClick, selectedRange, onRangeChange, onMoodAdded }) {
+  const [showAddModal, setShowAddModal] = useState(false);
   if (moods.length === 0) {
     return null;
   }
@@ -64,39 +67,15 @@ function MoodChart({ moods, onDataPointClick, selectedRange, onRangeChange }) {
   const stats = calculateStats();
 
   return (
-    <div className="mood-chart">
-      <div className="chart-header">
-        <h2>Mood Over Time</h2>
-        <div className="chart-filters">
-          <button 
-            className={selectedRange === 'all' ? 'filter-btn active' : 'filter-btn'}
-            onClick={() => onRangeChange('all')}
-          >
-            All Time
-          </button>
-          <button 
-            className={selectedRange === '7' ? 'filter-btn active' : 'filter-btn'}
-            onClick={() => onRangeChange('7')}
-          >
-            7 Days
-          </button>
-          <button 
-            className={selectedRange === '30' ? 'filter-btn active' : 'filter-btn'}
-            onClick={() => onRangeChange('30')}
-          >
-            30 Days
-          </button>
-          <button 
-            className={selectedRange === '90' ? 'filter-btn active' : 'filter-btn'}
-            onClick={() => onRangeChange('90')}
-          >
-            90 Days
-          </button>
-        </div>
+    <div className="mood-chart section-container">
+      <div className="chart-header-container">
+        <h2 className="section-title no-border">Mood Over Time</h2>
+        <button className="add-entry-btn" onClick={() => setShowAddModal(true)}>
+          +
+        </button>
       </div>
-      <p className="chart-hint">Click on any point to view details</p>
       <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={chartData}>
+        <LineChart data={chartData} margin={{ top: 5, right: 5, left: -35, bottom: 5 }}>
           <defs>
             <linearGradient id="moodGradient" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="#4caf50" /> {/* Green at top (10) */}
@@ -106,9 +85,9 @@ function MoodChart({ moods, onDataPointClick, selectedRange, onRangeChange }) {
               <stop offset="100%" stopColor="#f44336" /> {/* Red at bottom (-10) */}
             </linearGradient>
           </defs>
-          <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="date" />
           <YAxis domain={[-10, 10]} />
+          <ReferenceLine y={0} stroke="#e0e0e0" strokeDasharray="3 3" />
           <Tooltip 
             content={({ active, payload }) => {
               if (active && payload && payload.length) {
@@ -128,9 +107,9 @@ function MoodChart({ moods, onDataPointClick, selectedRange, onRangeChange }) {
             stroke="url(#moodGradient)"
             strokeWidth={3}
             dot={false} // Remove all dots by default
-            activeDot={{ 
+            activeDot={{
               r: 4,
-              fill: '#646cff',
+              fill: '#4295f4',
               stroke: '#fff',
               strokeWidth: 2,
               cursor: 'pointer',
@@ -142,33 +121,79 @@ function MoodChart({ moods, onDataPointClick, selectedRange, onRangeChange }) {
         </LineChart>
       </ResponsiveContainer>
 
+      <div className="chart-filters-bottom">
+        <button
+          className={selectedRange === 'all' ? 'active' : ''}
+          onClick={() => onRangeChange('all')}
+        >
+          ALL
+        </button>
+        <button
+          className={selectedRange === '1W' ? 'active' : ''}
+          onClick={() => onRangeChange('1W')}
+        >
+          1W
+        </button>
+        <button
+          className={selectedRange === '1M' ? 'active' : ''}
+          onClick={() => onRangeChange('1M')}
+        >
+          1M
+        </button>
+        <button
+          className={selectedRange === '3M' ? 'active' : ''}
+          onClick={() => onRangeChange('3M')}
+        >
+          3M
+        </button>
+        <button
+          className={selectedRange === '1Y' ? 'active' : ''}
+          onClick={() => onRangeChange('1Y')}
+        >
+          1Y
+        </button>
+      </div>
+
       {stats && (
-        <div className="mood-stats">
-          <div className="stat-item">
-            <span className="stat-label">Average</span>
-            <span className="stat-value">{stats.average}</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-label">Highest</span>
-            <span className="stat-value positive">{stats.highest}</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-label">Lowest</span>
-            <span className="stat-value negative">{stats.lowest}</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-label">Best Day</span>
-            <span className="stat-value">{stats.bestDay}</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-label">Worst Day</span>
-            <span className="stat-value">{stats.worstDay}</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-label">Total Entries</span>
-            <span className="stat-value">{stats.totalEntries}</span>
+        <div className="insights-section section-container">
+          <h2 className="section-title">Insights</h2>
+          <div className="mood-stats">
+            <div className="stat-item">
+              <span className="stat-label">Average</span>
+              <span className="stat-value">{stats.average}</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-label">Highest</span>
+              <span className="stat-value positive">{stats.highest}</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-label">Lowest</span>
+              <span className="stat-value negative">{stats.lowest}</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-label">Best Day</span>
+              <span className="stat-value">{stats.bestDay}</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-label">Worst Day</span>
+              <span className="stat-value">{stats.worstDay}</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-label">Total Entries</span>
+              <span className="stat-value">{stats.totalEntries}</span>
+            </div>
           </div>
         </div>
+      )}
+
+      {showAddModal && (
+        <AddMoodModal
+          onClose={() => setShowAddModal(false)}
+          onMoodAdded={() => {
+            setShowAddModal(false);
+            onMoodAdded();
+          }}
+        />
       )}
     </div>
   );
