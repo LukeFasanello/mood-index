@@ -67,11 +67,13 @@ function App() {
     <Router>
       <div className="header">
         <h1>
-          <span className="letter-m">M</span>
-          <span className="letter-o1">o</span>
-          <span className="letter-o2">o</span>
-          <span className="letter-d">d</span>
-          {' '}<span className="index-text">Index</span>
+          <Link to="/" className="title-link">
+            <span className="letter-m">M</span>
+            <span className="letter-o1">o</span>
+            <span className="letter-o2">o</span>
+            <span className="letter-d">d</span>
+            {' '}<span className="index-text">Index</span>
+          </Link>
         </h1>
         <nav className="nav-links">
           <Link to="/" className="nav-link">Home</Link>

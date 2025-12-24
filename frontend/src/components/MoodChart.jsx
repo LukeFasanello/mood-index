@@ -1,9 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
 import AddMoodModal from './AddMoodModal';
 
 function MoodChart({ moods, onDataPointClick, selectedRange, onRangeChange, onMoodAdded }) {
   const [showAddModal, setShowAddModal] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 1024);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   if (moods.length === 0) {
     return null;
   }
@@ -74,8 +84,8 @@ function MoodChart({ moods, onDataPointClick, selectedRange, onRangeChange, onMo
           +
         </button>
       </div>
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={chartData} margin={{ top: 5, right: 5, left: -35, bottom: 5 }}>
+      <ResponsiveContainer width="100%" height={isMobile ? 200 : 300}>
+        <LineChart data={chartData} margin={isMobile ? { top: 5, right: 20, left: -40, bottom: 5 } : { top: 5, right: 5, left: -35, bottom: 5 }}>
           <defs>
             <linearGradient id="moodGradient" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="#4caf50" /> {/* Green at top (10) */}

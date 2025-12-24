@@ -80,6 +80,19 @@ body, #root {
   font-family: 'Poppins', sans-serif;
 }
 
+.title-link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.title-link:hover,
+.title-link:visited,
+.title-link:active {
+  text-decoration: none;
+  color: inherit;
+}
+
 /* Colorful "Mood" letters */
 .letter-m {
   color: #1E88E5;
@@ -162,11 +175,11 @@ p {
 }
 
 /* Auth Styles */
-.App h1 {
+.App > h1 {
   text-align: center;
 }
 
-.App p {
+.App > p {
   text-align: center;
 }
 
@@ -195,12 +208,12 @@ p {
   max-width: 400px;
   margin: 0 auto;
   padding: 2rem;
+  text-align: center;
 }
 
 /* Form Styles */
 .form-group {
   margin-bottom: 1.5rem;
-  text-align: left;
 }
 
 .form-group label {
@@ -484,6 +497,7 @@ button:disabled {
 .mood-list {
   padding: 0;
   margin-bottom: 3rem;
+  text-align: left;
 }
 
 .mood-entries {
@@ -495,6 +509,7 @@ button:disabled {
 .mood-entry {
   padding: 1rem 0;
   border-bottom: 1px solid #e0e0e0;
+  text-align: left;
 }
 
 .mood-header {
@@ -697,23 +712,55 @@ button:disabled {
   text-align: center;
 }
 
-/* Mobile Responsive Styles */
-@media (max-width: 768px) {
-  .App {
-    padding: 1rem 5%;
+/* Tablet and Mobile Responsive Styles */
+@media (max-width: 1024px) {
+  .header {
+    padding: 0.75rem 2%;
   }
 
-  h1 {
-    font-size: 2rem;
+  .header h1 {
+    font-size: 1.25rem;
   }
 
-  h2 {
-    font-size: 1.5rem;
+  .nav-links {
+    gap: 0.5rem;
+    margin-right: 0.5rem;
+  }
+
+  .nav-link {
+    font-size: 0.85rem;
+    padding: 0.35rem 0.5rem;
   }
 
   .logout-btn {
-    width: 100%;
-    max-width: 300px;
+    padding: 0.35rem 0.6rem;
+    font-size: 0.85rem;
+  }
+
+  .page-wrapper {
+    padding-top: 4rem;
+  }
+
+  .App {
+    padding: 0.75rem 2%;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  .section-title {
+    font-size: 1.1rem;
+  }
+
+  .add-entry-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 24px;
   }
 
   .auth-toggle {
@@ -751,12 +798,58 @@ button:disabled {
     font-size: 0.8rem;
   }
 
+  .chart-section {
+    margin-bottom: 3rem;
+  }
+
   .mood-chart {
-    padding: 1rem;
+    padding: 0;
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .mood-chart .recharts-wrapper {
+    margin: 0 auto;
+  }
+
+  .mood-chart .recharts-surface {
+    font-size: 0.7rem;
+  }
+
+  .mood-chart .recharts-cartesian-axis-tick {
+    font-size: 0.65rem;
+  }
+
+  .chart-header-container {
+    padding: 0;
+    margin-bottom: 0.5rem;
   }
 
   .chart-hint {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
+    padding: 0;
+  }
+
+  .chart-filters-bottom {
+    padding: 0;
+  }
+
+  .insights-section {
+    margin-top: 2rem;
+  }
+
+  .mood-stats {
+    gap: 0.75rem;
+  }
+
+  .stat-label {
+    font-size: 0.9rem;
+  }
+
+  .stat-value {
+    font-size: 0.9rem;
   }
 
   .mood-list {

@@ -34,7 +34,7 @@ app.use('/api/auth/', authLimiter); // Stricter limit for auth routes
 
 // Other Middleware
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://192.168.1.189:5173'],
+  origin: ['http://localhost:5173', 'http://192.168.1.189:5173', 'http://192.168.2.138:5173'],
   credentials: true
 }));
 app.use(express.json());
