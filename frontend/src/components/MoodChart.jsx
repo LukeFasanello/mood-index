@@ -4,11 +4,15 @@ import AddMoodModal from './AddMoodModal';
 
 function MoodChart({ moods, onDataPointClick, selectedRange, onRangeChange, onMoodAdded }) {
   const [showAddModal, setShowAddModal] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isMedium, setIsMedium] = useState(window.innerWidth > 768 && window.innerWidth <= 1024);
+  const [isSmallDesktop, setIsSmallDesktop] = useState(window.innerWidth > 1024 && window.innerWidth <= 1400);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 1024);
+      setIsMobile(window.innerWidth <= 768);
+      setIsMedium(window.innerWidth > 768 && window.innerWidth <= 1024);
+      setIsSmallDesktop(window.innerWidth > 1024 && window.innerWidth <= 1400);
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -85,7 +89,12 @@ function MoodChart({ moods, onDataPointClick, selectedRange, onRangeChange, onMo
         </button>
       </div>
       <ResponsiveContainer width="100%" height={isMobile ? 200 : 300}>
-        <LineChart data={chartData} margin={isMobile ? { top: 5, right: 20, left: -40, bottom: 5 } : { top: 5, right: 5, left: -35, bottom: 5 }}>
+        <LineChart data={chartData} margin={
+          isMobile ? { top: 5, right: 40, left: -45, bottom: 5 } :
+          isMedium ? { top: 5, right: 50, left: -35, bottom: 5 } :
+          isSmallDesktop ? { top: 5, right: 50, left: -35, bottom: 5 } :
+          { top: 5, right: 5, left: -35, bottom: 5 }
+        }>
           <defs>
             <linearGradient id="moodGradient" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="#4caf50" /> {/* Green at top (10) */}
@@ -98,11 +107,11 @@ function MoodChart({ moods, onDataPointClick, selectedRange, onRangeChange, onMo
           <XAxis dataKey="date" />
           <YAxis domain={[-10, 10]} />
           <ReferenceLine y={0} stroke="#e0e0e0" strokeDasharray="3 3" />
-          <Tooltip 
+          <Tooltip
             content={({ active, payload }) => {
               if (active && payload && payload.length) {
                 return (
-                  <div className="custom-tooltip">
+                  <div className={`custom-tooltip ${isMobile ? 'mobile' : isMedium ? 'medium' : ''}`}>
                     <p><strong>{payload[0].payload.date}</strong></p>
                     <p>Mood: {payload[0].value}</p>
                   </div>
@@ -111,14 +120,14 @@ function MoodChart({ moods, onDataPointClick, selectedRange, onRangeChange, onMo
               return null;
             }}
           />
-          <Line 
-            type="monotone" 
-            dataKey="mood" 
+          <Line
+            type="monotone"
+            dataKey="mood"
             stroke="url(#moodGradient)"
             strokeWidth={3}
             dot={false} // Remove all dots by default
             activeDot={{
-              r: 4,
+              r: isMobile ? 8 : 6 ,
               fill: '#4295f4',
               stroke: '#fff',
               strokeWidth: 2,

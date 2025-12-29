@@ -363,7 +363,9 @@ button:disabled {
   padding: 0;
   margin-bottom: 3rem;
   width: 100%;
+  max-width: 100%;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .chart-header-container {
@@ -371,6 +373,8 @@ button:disabled {
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 1rem;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .add-entry-btn {
@@ -408,10 +412,35 @@ button:disabled {
 
 .custom-tooltip {
   background: white;
-  padding: 1rem;
+  padding: 0.5rem 0.75rem;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.custom-tooltip p {
+  margin: 0.2rem 0;
+  font-size: 0.875rem;
+}
+
+.custom-tooltip.mobile {
+  padding: 0.4rem 0.6rem;
+  font-size: 0.75rem;
+}
+
+.custom-tooltip.mobile p {
+  margin: 0.15rem 0;
+  font-size: 0.7rem;
+}
+
+.custom-tooltip.medium {
+  padding: 0.5rem 0.7rem;
+  font-size: 0.85rem;
+}
+
+.custom-tooltip.medium p {
+  margin: 0.2rem 0;
+  font-size: 0.8rem;
 }
 
 .tooltip-text {
@@ -738,7 +767,7 @@ button:disabled {
   }
 
   .page-wrapper {
-    padding-top: 4rem;
+    padding-top: 4.5rem;
   }
 
   .App {
@@ -758,9 +787,9 @@ button:disabled {
   }
 
   .add-entry-btn {
-    width: 36px;
-    height: 36px;
-    font-size: 24px;
+    width: 32px;
+    height: 32px;
+    font-size: 22px;
   }
 
   .auth-toggle {
@@ -825,6 +854,11 @@ button:disabled {
   .chart-header-container {
     padding: 0;
     margin-bottom: 0.5rem;
+    margin-right: 1rem;
+  }
+
+  .add-entry-btn {
+    margin-right: 0.5rem;
   }
 
   .chart-hint {
@@ -927,5 +961,96 @@ button:disabled {
 
   .chart-filters-bottom button {
     font-size: 0.8rem;
+  }
+}
+
+/* Medium screens (tablets in landscape, small desktops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .header {
+    padding: 1rem 3%;
+  }
+
+  .header h1 {
+    font-size: 1.5rem;
+  }
+
+  .nav-link {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.7rem;
+  }
+
+  .logout-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .page-wrapper {
+    padding-top: 4rem;
+  }
+
+  .App {
+    padding: 1rem 3%;
+  }
+
+  .mood-chart {
+    padding: 0;
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .chart-header-container {
+    margin-right: 1.5rem;
+  }
+
+  .add-entry-btn {
+    margin-right: 1rem;
+  }
+}
+
+/* Small desktop / large tablet (1025px - 1400px) */
+@media (min-width: 1025px) and (max-width: 1400px) {
+  .App {
+    padding: 1rem 2.5%;
+  }
+
+  .mood-chart {
+    padding: 0;
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .mood-chart .recharts-wrapper {
+    margin: 0 auto;
+  }
+
+  .mood-chart .recharts-surface {
+    font-size: 0.85rem;
+  }
+
+  .mood-chart .recharts-cartesian-axis-tick {
+    font-size: 0.8rem;
+  }
+
+  .chart-header-container {
+    margin-right: 1.5rem;
+    padding: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .add-entry-btn {
+    margin-right: 1.0rem;
+  }
+}
+
+/* Extra small mobile screens */
+@media (max-width: 480px) {
+  .add-entry-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 20px;
   }
 }
