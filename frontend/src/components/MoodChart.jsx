@@ -91,8 +91,8 @@ function MoodChart({ moods, onDataPointClick, selectedRange, onRangeChange, onMo
       <ResponsiveContainer width="100%" height={isMobile ? 200 : 300}>
         <LineChart data={chartData} margin={
           isMobile ? { top: 5, right: 40, left: -45, bottom: 5 } :
-          isMedium ? { top: 5, right: 50, left: -35, bottom: 5 } :
-          isSmallDesktop ? { top: 5, right: 50, left: -35, bottom: 5 } :
+          isMedium ? { top: 5, right: 70, left: -35, bottom: 5 } :
+          isSmallDesktop ? { top: 5, right: 70, left: -35, bottom: 5 } :
           { top: 5, right: 5, left: -35, bottom: 5 }
         }>
           <defs>
