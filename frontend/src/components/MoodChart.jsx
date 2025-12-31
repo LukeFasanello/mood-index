@@ -18,11 +18,9 @@ function MoodChart({ moods, onDataPointClick, selectedRange, onRangeChange, onMo
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  if (moods.length === 0) {
-    return null;
-  }
-
   // Sort moods by date and format for chart
+  const hasData = moods.length > 0;
+
   const chartData = moods
     .sort((a, b) => new Date(a.entry_date) - new Date(b.entry_date))
     .map(mood => ({
@@ -88,57 +86,71 @@ function MoodChart({ moods, onDataPointClick, selectedRange, onRangeChange, onMo
           +
         </button>
       </div>
-      <ResponsiveContainer width="100%" height={isMobile ? 200 : 300}>
-        <LineChart data={chartData} margin={
-          isMobile ? { top: 5, right: 40, left: -45, bottom: 5 } :
-          isMedium ? { top: 5, right: 70, left: -35, bottom: 5 } :
-          isSmallDesktop ? { top: 5, right: 70, left: -35, bottom: 5 } :
-          { top: 5, right: 5, left: -35, bottom: 5 }
-        }>
-          <defs>
-            <linearGradient id="moodGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#4caf50" /> {/* Green at top (10) */}
-              <stop offset="25%" stopColor="#8bc34a" /> {/* Light green */}
-              <stop offset="50%" stopColor="#ffc107" /> {/* Yellow at middle (0) */}
-              <stop offset="75%" stopColor="#ff9800" /> {/* Orange */}
-              <stop offset="100%" stopColor="#f44336" /> {/* Red at bottom (-10) */}
-            </linearGradient>
-          </defs>
-          <XAxis dataKey="date" />
-          <YAxis domain={[-10, 10]} />
-          <ReferenceLine y={0} stroke="#e0e0e0" strokeDasharray="3 3" />
-          <Tooltip
-            content={({ active, payload }) => {
-              if (active && payload && payload.length) {
-                return (
-                  <div className={`custom-tooltip ${isMobile ? 'mobile' : isMedium ? 'medium' : ''}`}>
-                    <p><strong>{payload[0].payload.date}</strong></p>
-                    <p>Mood: {payload[0].value}</p>
-                  </div>
-                );
-              }
-              return null;
-            }}
-          />
-          <Line
-            type="monotone"
-            dataKey="mood"
-            stroke="url(#moodGradient)"
-            strokeWidth={3}
-            dot={false} // Remove all dots by default
-            activeDot={{
-              r: isMobile ? 8 : 6 ,
-              fill: '#4295f4',
-              stroke: '#fff',
-              strokeWidth: 2,
-              cursor: 'pointer',
-              onClick: (e, payload) => {
-                handleDotClick(payload.payload);
-              }
-            }}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+
+      <div style={{ position: 'relative' }}>
+        <div style={{ filter: !hasData ? 'blur(4px)' : 'none' }}>
+          <ResponsiveContainer width="100%" height={isMobile ? 200 : 300}>
+            <LineChart data={chartData} margin={
+              isMobile ? { top: 5, right: 40, left: -45, bottom: 5 } :
+              isMedium ? { top: 5, right: 70, left: -35, bottom: 5 } :
+              isSmallDesktop ? { top: 5, right: 70, left: -35, bottom: 5 } :
+              { top: 5, right: 5, left: -35, bottom: 5 }
+            }>
+              <defs>
+                <linearGradient id="moodGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#4caf50" /> {/* Green at top (10) */}
+                  <stop offset="25%" stopColor="#8bc34a" /> {/* Light green */}
+                  <stop offset="50%" stopColor="#ffc107" /> {/* Yellow at middle (0) */}
+                  <stop offset="75%" stopColor="#ff9800" /> {/* Orange */}
+                  <stop offset="100%" stopColor="#f44336" /> {/* Red at bottom (-10) */}
+                </linearGradient>
+              </defs>
+              <XAxis dataKey="date" />
+              <YAxis domain={[-10, 10]} />
+              <ReferenceLine y={0} stroke="#e0e0e0" strokeDasharray="3 3" />
+              <Tooltip
+                content={({ active, payload }) => {
+                  if (active && payload && payload.length) {
+                    return (
+                      <div className={`custom-tooltip ${isMobile ? 'mobile' : isMedium ? 'medium' : ''}`}>
+                        <p><strong>{payload[0].payload.date}</strong></p>
+                        <p>Mood: {payload[0].value}</p>
+                      </div>
+                    );
+                  }
+                  return null;
+                }}
+              />
+              <Line
+                type="monotone"
+                dataKey="mood"
+                stroke="url(#moodGradient)"
+                strokeWidth={3}
+                dot={false}
+                activeDot={{
+                  r: isMobile ? 8 : 6,
+                  fill: '#4295f4',
+                  stroke: '#fff',
+                  strokeWidth: 2,
+                  cursor: 'pointer',
+                  onClick: (e, payload) => {
+                    handleDotClick(payload.payload);
+                  }
+                }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+
+        {!hasData && (
+          <div className="no-data-overlay">
+            <div className="no-data-popup">
+              <h3>No Data Available</h3>
+              <p>There are no mood entries for the selected time range.</p>
+            </div>
+          </div>
+        )}
+      </div>
 
       <div className="chart-filters-bottom">
         <button
@@ -173,13 +185,17 @@ function MoodChart({ moods, onDataPointClick, selectedRange, onRangeChange, onMo
         </button>
       </div>
 
-      {stats && (
-        <div className="insights-section section-container">
-          <h2 className="section-title">Insights</h2>
+      <div className="insights-section section-container">
+        <h2 className="section-title">Insights</h2>
+        {stats ? (
           <div className="mood-stats">
             <div className="stat-item">
               <span className="stat-label">Average</span>
               <span className="stat-value">{stats.average}</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-label">Total Entries</span>
+              <span className="stat-value">{stats.totalEntries}</span>
             </div>
             <div className="stat-item">
               <span className="stat-label">Highest</span>
@@ -197,13 +213,14 @@ function MoodChart({ moods, onDataPointClick, selectedRange, onRangeChange, onMo
               <span className="stat-label">Worst Day</span>
               <span className="stat-value">{stats.worstDay}</span>
             </div>
-            <div className="stat-item">
-              <span className="stat-label">Total Entries</span>
-              <span className="stat-value">{stats.totalEntries}</span>
-            </div>
           </div>
-        </div>
-      )}
+        ) : (
+          <div className="no-data-message">
+            <p>No mood entries available for the selected time range.</p>
+            <p>Try selecting a different time range or add a new mood entry above.</p>
+          </div>
+        )}
+      </div>
 
       {showAddModal && (
         <AddMoodModal

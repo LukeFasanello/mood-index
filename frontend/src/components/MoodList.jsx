@@ -1,13 +1,36 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import api from '../utils/api';
 import EditMoodModal from './EditMoodModal';
 import { formatDate } from '../utils/dateHelpers';
 
+const ENTRIES_PER_PAGE = 10;
+
 function MoodList({ moods, onMoodDeleted, onMoodUpdated }) {
   const [deletingId, setDeletingId] = useState(null);
   const [editingMood, setEditingMood] = useState(null);
+  const [openMenuId, setOpenMenuId] = useState(null);
+  const [displayCount, setDisplayCount] = useState(ENTRIES_PER_PAGE);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setOpenMenuId(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const toggleMenu = (id) => {
+    setOpenMenuId(openMenuId === id ? null : id);
+  };
 
   const handleDelete = async (id) => {
+    setOpenMenuId(null);
     if (!window.confirm('Are you sure you want to delete this entry?')) {
       return;
     }
@@ -21,6 +44,15 @@ function MoodList({ moods, onMoodDeleted, onMoodUpdated }) {
     } finally {
       setDeletingId(null);
     }
+  };
+
+  const handleEdit = (mood) => {
+    setOpenMenuId(null);
+    setEditingMood(mood);
+  };
+
+  const handleLoadMore = () => {
+    setDisplayCount(prevCount => prevCount + ENTRIES_PER_PAGE);
   };
 
   const getMoodColor = (value) => {
@@ -40,44 +72,66 @@ function MoodList({ moods, onMoodDeleted, onMoodUpdated }) {
     );
   }
 
+  const displayedMoods = moods.slice(0, displayCount);
+  const hasMore = displayCount < moods.length;
+
   return (
     <div className="mood-list section-container">
       <h2 className="section-title">Your Mood History</h2>
       <div className="mood-entries">
-        {moods.map((mood) => (
+        {displayedMoods.map((mood) => (
           <div key={mood.id} className="mood-entry">
+            <div className="mood-menu-container" ref={openMenuId === mood.id ? menuRef : null}>
+              <button
+                onClick={() => toggleMenu(mood.id)}
+                className="mood-menu-btn"
+                aria-label="More options"
+              >
+                ⋮
+              </button>
+              {openMenuId === mood.id && (
+                <div className="mood-dropdown-menu">
+                  <button
+                    onClick={() => handleEdit(mood)}
+                    className="mood-dropdown-item"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(mood.id)}
+                    disabled={deletingId === mood.id}
+                    className="mood-dropdown-item delete"
+                  >
+                    {deletingId === mood.id ? 'Deleting...' : 'Delete'}
+                  </button>
+                </div>
+              )}
+            </div>
             <div className="mood-header">
               <span className="mood-date">
                 {formatDate(mood.entry_date)}
               </span>
-              <span 
+              <span
                 className="mood-value"
                 style={{ backgroundColor: getMoodColor(mood.mood_value) }}
               >
-                {mood.mood_value > 0 ? '+' : ''}{mood.mood_value}
+                {mood.mood_value}
               </span>
             </div>
             {mood.entry_text && (
               <p className="mood-text">{mood.entry_text}</p>
             )}
-            <div className="mood-actions">
-              <button
-                onClick={() => setEditingMood(mood)}
-                className="edit-btn"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => handleDelete(mood.id)}
-                disabled={deletingId === mood.id}
-                className="delete-btn"
-              >
-                {deletingId === mood.id ? 'Deleting...' : 'Delete'}
-              </button>
-            </div>
           </div>
         ))}
       </div>
+
+      {hasMore && (
+        <div className="load-more-container">
+          <button onClick={handleLoadMore} className="load-more-btn">
+            Load More
+          </button>
+        </div>
+      )}
 
       {editingMood && (
         <EditMoodModal

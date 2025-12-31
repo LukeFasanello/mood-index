@@ -48,11 +48,12 @@ function HomePage() {
     };
 
     const days = daysMap[dateRange];
-    const cutoffDate = new Date();
-    cutoffDate.setDate(cutoffDate.getDate() - days);
+    const now = new Date();
+    const cutoffDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - days);
 
     const filtered = moods.filter(mood => {
-      const moodDate = new Date(mood.entry_date);
+      const dateStr = mood.entry_date.split('T')[0];
+      const moodDate = new Date(dateStr + 'T12:00:00');
       return moodDate >= cutoffDate;
     });
 
