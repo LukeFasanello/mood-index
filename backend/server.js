@@ -59,14 +59,41 @@ app.get('/api/protected', authMiddleware, (req, res) => {
 app.get('/api/db-test', async (req, res) => {
   try {
     const result = await pool.query('SELECT NOW()');
-    res.json({ 
-      message: 'Database connected!', 
-      timestamp: result.rows[0].now 
+    res.json({
+      message: 'Database connected!',
+      timestamp: result.rows[0].now
     });
   } catch (error) {
     console.error('Database error:', error);
     res.status(500).json({ error: 'Database connection failed' });
   }
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+  // Don't log aborted requests
+  if (req.aborted || err.code === 'ECONNRESET') {
+    console.log('Request aborted by client');
+    return;
+  }
+
+  console.error('Unhandled error:', err);
+
+  if (!res.headersSent) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Handle uncaught exceptions
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught Exception:', error);
+  // Don't exit the process, just log it
+});
+
+// Handle unhandled promise rejections
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  // Don't exit the process, just log it
 });
 
 app.listen(PORT, () => {

@@ -91,22 +91,22 @@ function MoodChart({ moods, onDataPointClick, selectedRange, onRangeChange, onMo
         <div style={{ filter: !hasData ? 'blur(4px)' : 'none' }}>
           <ResponsiveContainer width="100%" height={isMobile ? 200 : 300}>
             <LineChart data={chartData} margin={
-              isMobile ? { top: 5, right: 40, left: -45, bottom: 5 } :
+              isMobile ? { top: 5, right: 40, left: -35, bottom: 5 } :
               isMedium ? { top: 5, right: 70, left: -35, bottom: 5 } :
               isSmallDesktop ? { top: 5, right: 70, left: -35, bottom: 5 } :
               { top: 5, right: 5, left: -35, bottom: 5 }
             }>
               <defs>
-                <linearGradient id="moodGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#4caf50" /> {/* Green at top (10) */}
-                  <stop offset="25%" stopColor="#8bc34a" /> {/* Light green */}
-                  <stop offset="50%" stopColor="#ffc107" /> {/* Yellow at middle (0) */}
-                  <stop offset="75%" stopColor="#ff9800" /> {/* Orange */}
-                  <stop offset="100%" stopColor="#f44336" /> {/* Red at bottom (-10) */}
+                <linearGradient id="moodGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#4caf50" stopOpacity={1} /> {/* Green at top (10) */}
+                  <stop offset="35%" stopColor="#8bc34a" stopOpacity={1} /> {/* Light green */}
+                  <stop offset="50%" stopColor="#ffc107" stopOpacity={1} /> {/* Yellow at middle (0) */}
+                  <stop offset="70%" stopColor="#ff9800" stopOpacity={1} /> {/* Orange */}
+                  <stop offset="100%" stopColor="#f44336" stopOpacity={1} /> {/* Red at bottom (-10) */}
                 </linearGradient>
               </defs>
               <XAxis dataKey="date" />
-              <YAxis domain={[-10, 10]} />
+              <YAxis domain={[-10, 10]} tickCount={5} />
               <ReferenceLine y={0} stroke="#e0e0e0" strokeDasharray="3 3" />
               <Tooltip
                 content={({ active, payload }) => {
@@ -124,7 +124,7 @@ function MoodChart({ moods, onDataPointClick, selectedRange, onRangeChange, onMo
               <Line
                 type="monotone"
                 dataKey="mood"
-                stroke="url(#moodGradient)"
+                stroke="#4295f4"
                 strokeWidth={3}
                 dot={false}
                 activeDot={{
@@ -217,7 +217,7 @@ function MoodChart({ moods, onDataPointClick, selectedRange, onRangeChange, onMo
         ) : (
           <div className="no-data-message">
             <p>No mood entries available for the selected time range.</p>
-            <p>Try selecting a different time range or add a new mood entry above.</p>
+            <p>Try selecting a different time range or add a new mood entry.</p>
           </div>
         )}
       </div>

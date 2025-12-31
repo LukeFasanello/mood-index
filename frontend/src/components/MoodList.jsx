@@ -67,7 +67,7 @@ function MoodList({ moods, onMoodDeleted, onMoodUpdated }) {
     return (
       <div className="mood-list section-container">
         <h2 className="section-title">Your Mood History</h2>
-        <p>No mood entries yet. Add your first one above!</p>
+        <p>No mood entries yet. Add your first one on the home page!</p>
       </div>
     );
   }
