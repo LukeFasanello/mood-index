@@ -516,6 +516,11 @@ button:disabled {
   margin-bottom: 5rem;
 }
 
+.chart-header-container .section-title {
+  margin: 0;
+  line-height: 1;
+}
+
 .mood-chart {
   padding: 0;
   margin-bottom: 3rem;
@@ -528,10 +533,37 @@ button:disabled {
 .chart-header-container {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: 1rem;
   max-width: 100%;
   box-sizing: border-box;
+}
+
+.refresh-chart-btn {
+  all: unset;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: transparent;
+  color: black;
+  font-size: 18px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.refresh-chart-btn:hover {
+  background-color: transparent;
+  transform: scale(1.05);
+}
+
+.refresh-chart-btn:active {
+  background-color: transparent;
 }
 
 .add-entry-btn {
@@ -541,7 +573,7 @@ button:disabled {
   border-radius: 50%;
   background-color: #4295f4;
   color: white;
-  font-size: 28px;
+  font-size: 25px;
   line-height: 0;
   display: flex;
   align-items: center;
@@ -555,36 +587,6 @@ button:disabled {
 .add-entry-btn:hover {
   background-color: #3380d9;
   transform: scale(1.05);
-}
-
-.refresh-chart-btn {
-  all: unset;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background-color: transparent;
-  color: #666;
-  font-size: 18px;
-  line-height: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.refresh-chart-btn:hover {
-  background-color: rgba(0, 0, 0, 0.08);
-  color: #333;
-  transform: rotate(180deg);
-}
-
-.refresh-chart-btn:active {
-  background-color: rgba(0, 0, 0, 0.12);
-  transform: rotate(180deg) scale(0.95);
 }
 
 .chart-hint {

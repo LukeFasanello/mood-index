@@ -85,7 +85,7 @@ function MoodChart({ moods, onDataPointClick, selectedRange, onRangeChange, onMo
   return (
     <div className="mood-chart section-container">
       <div className="chart-header-container">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.1rem' }}>
           <h2 className="section-title no-border">Mood Over Time</h2>
           {(isMobile || isMedium) && (
             <button className="refresh-chart-btn" onClick={handleRefreshChart} aria-label="Refresh chart">
