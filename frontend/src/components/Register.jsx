@@ -4,12 +4,19 @@ import api from '../utils/api';
 function Register({ onRegisterSuccess }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
+    if (!agreedToTerms) {
+      setError('You must agree to the Terms of Service and Privacy Policy');
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -54,6 +61,26 @@ function Register({ onRegisterSuccess }) {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+        </div>
+        <div className="form-group checkbox-group">
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              checked={agreedToTerms}
+              onChange={(e) => setAgreedToTerms(e.target.checked)}
+              className="checkbox-input"
+            />
+            <span className="checkbox-text">
+              I agree to the{' '}
+              <a href="/terms" target="_blank" rel="noopener noreferrer" className="legal-link">
+                Terms of Service
+              </a>
+              {' '}and{' '}
+              <a href="/privacy" target="_blank" rel="noopener noreferrer" className="legal-link">
+                Privacy Policy
+              </a>
+            </span>
+          </label>
         </div>
         {error && <div className="error">{error}</div>}
         <button type="submit" disabled={loading}>

@@ -7,7 +7,7 @@ function MoodChart({ moods, onDataPointClick, selectedRange, onRangeChange, onMo
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [isMedium, setIsMedium] = useState(window.innerWidth > 768 && window.innerWidth <= 1024);
   const [isSmallDesktop, setIsSmallDesktop] = useState(window.innerWidth > 1024 && window.innerWidth <= 1400);
-
+  const [chartKey, setChartKey] = useState(0);
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -33,6 +33,10 @@ function MoodChart({ moods, onDataPointClick, selectedRange, onRangeChange, onMo
     if (data && data.fullMood) {
       onDataPointClick(data.fullMood);
     }
+  };
+
+  const handleRefreshChart = () => {
+    setChartKey(prev => prev + 1);
   };
 
   // Calculate statistics
@@ -81,7 +85,14 @@ function MoodChart({ moods, onDataPointClick, selectedRange, onRangeChange, onMo
   return (
     <div className="mood-chart section-container">
       <div className="chart-header-container">
-        <h2 className="section-title no-border">Mood Over Time</h2>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <h2 className="section-title no-border">Mood Over Time</h2>
+          {(isMobile || isMedium) && (
+            <button className="refresh-chart-btn" onClick={handleRefreshChart} aria-label="Refresh chart">
+              ↻
+            </button>
+          )}
+        </div>
         <button className="add-entry-btn" onClick={() => setShowAddModal(true)}>
           +
         </button>
@@ -90,7 +101,7 @@ function MoodChart({ moods, onDataPointClick, selectedRange, onRangeChange, onMo
       <div style={{ position: 'relative' }}>
         <div style={{ filter: !hasData ? 'blur(4px)' : 'none' }}>
           <ResponsiveContainer width="100%" height={isMobile ? 200 : 300}>
-            <LineChart data={chartData} margin={
+            <LineChart key={chartKey} data={chartData} margin={
               isMobile ? { top: 5, right: 40, left: -35, bottom: 5 } :
               isMedium ? { top: 5, right: 70, left: -35, bottom: 5 } :
               isSmallDesktop ? { top: 5, right: 70, left: -35, bottom: 5 } :
