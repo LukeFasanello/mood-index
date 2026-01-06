@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Use environment variable if available, otherwise use localhost
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://mood-index-backend.elasticbeanstalk.com/api';
 
 // Create axios instance with base URL
 const api = axios.create({

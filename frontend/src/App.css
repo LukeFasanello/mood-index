@@ -4,11 +4,12 @@
 .chart-filters-bottom {
   display: flex;
   gap: 1.5rem;
+  align-items: baseline;
   margin-top: 1rem;
   padding-left: 0;
 }
 
-.chart-filters-bottom button {
+.chart-filters-bottom button:not(.refresh-chart-btn) {
   all: unset;
   font-size: 0.875rem;
   font-weight: 500;
@@ -19,11 +20,11 @@
   transition: all 0.2s;
 }
 
-.chart-filters-bottom button:hover {
+.chart-filters-bottom button:not(.refresh-chart-btn):hover {
   color: #242424;
 }
 
-.chart-filters-bottom button.active {
+.chart-filters-bottom button:not(.refresh-chart-btn).active {
   color: #242424;
   border-bottom-color: #242424;
 }
@@ -541,20 +542,20 @@ button:disabled {
 
 .refresh-chart-btn {
   all: unset;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
+  width: auto;
+  height: auto;
   background-color: transparent;
   color: black;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
   flex-shrink: 0;
   box-sizing: border-box;
+  padding: 0;
 }
 
 .refresh-chart-btn:hover {
@@ -1284,11 +1285,11 @@ button:disabled {
   }
 
   .chart-filters-bottom {
-    gap: 1rem;
     padding-left: 0;
+    gap: 1rem;
   }
 
-  .chart-filters-bottom button {
+  .chart-filters-bottom button:not(.refresh-chart-btn) {
     font-size: 0.8rem;
   }
 }
@@ -1435,11 +1436,14 @@ button:disabled {
 
 /* Footer */
 .app-footer {
-  width: 100%;
+  width: 100vw;
   padding: 2rem 1rem;
   margin-top: 4rem;
+  margin-left: 0;
+  margin-right: 0;
   border-top: 1px solid #e0e0e0;
   background-color: #f9f9f9;
+  box-sizing: border-box;
 }
 
 .footer-links {

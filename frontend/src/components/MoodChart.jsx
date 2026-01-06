@@ -85,14 +85,7 @@ function MoodChart({ moods, onDataPointClick, selectedRange, onRangeChange, onMo
   return (
     <div className="mood-chart section-container">
       <div className="chart-header-container">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.1rem' }}>
-          <h2 className="section-title no-border">Mood Over Time</h2>
-          {(isMobile || isMedium) && (
-            <button className="refresh-chart-btn" onClick={handleRefreshChart} aria-label="Refresh chart">
-              ↻
-            </button>
-          )}
-        </div>
+        <h2 className="section-title no-border">Mood Over Time</h2>
         <button className="add-entry-btn" onClick={() => setShowAddModal(true)}>
           +
         </button>
@@ -194,6 +187,11 @@ function MoodChart({ moods, onDataPointClick, selectedRange, onRangeChange, onMo
         >
           1Y
         </button>
+        {(isMobile || isMedium) && (
+          <button className="refresh-chart-btn" onClick={handleRefreshChart} aria-label="Refresh chart">
+            ↻
+          </button>
+        )}
       </div>
 
       <div className="insights-section section-container">

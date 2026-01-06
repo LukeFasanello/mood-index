@@ -61,7 +61,11 @@ exports.register = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Registration error:', error.message); // Don't log full error details
+    // Check for unique constraint violation (one entry per day)
+    if (error.code === '23505') {
+      return res.status(400).json({ error: 'User already exists' });
+    }
+    console.error('Create mood error:', error); // Changed from error.message to full error
     res.status(500).json({ error: 'Server error' });
   }
 };

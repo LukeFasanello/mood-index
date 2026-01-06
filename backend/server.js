@@ -1,3 +1,5 @@
+require('dotenv').config();
+console.log('DB_HOST:', process.env.DB_HOST);
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -6,7 +8,6 @@ const pool = require('./config/database');
 const authRoutes = require('./routes/authRoutes');
 const authMiddleware = require('./middleware/auth');
 const moodRoutes = require('./routes/moodRoutes');
-require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
