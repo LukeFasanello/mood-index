@@ -17,28 +17,32 @@ function About() {
       <section>
         <h3>Why I Built This</h3>
         <p>
-          [Add your personal story here - why you decided to build this app, what problem
-          you were trying to solve, or what inspired you to create it.]
+          Before building this website, I realized I needed to approach life with a bit more balance. 
+          I wanted to avoid the peaks and valleys in my mindset and productivity, and focus on steady 
+          progress rather than cycling between bursts of intensity and periods of stagnation.
+        </p>
+        <p>
+          Inspired by how stock market charts show trends over time, I started thinking about what it 
+          would look like to track mood in a similar way. I wanted to be able to zoom out and see the 
+          bigger picture, understand patterns, and figure out what actually influences how I feel over time.
+        </p>
+        <p>
+          At the same time, I wanted to learn more about web development by building something 
+          real and useful from start to finish. This project let me explore both the technical 
+          and human sides of building a product, and I hope it’s helpful for anyone who wants a 
+          better understanding of their own patterns.
         </p>
       </section>
 
       <section>
-        <h3>Technology Stack</h3>
+        <h3>Tech Stack</h3>
         <p>Mood Index is built with modern web technologies:</p>
         <ul>
           <li><strong>Frontend:</strong> React, Recharts for data visualization</li>
           <li><strong>Backend:</strong> Node.js, Express.js</li>
           <li><strong>Database:</strong> PostgreSQL</li>
-          <li><strong>Authentication:</strong> JWT (JSON Web Tokens), bcrypt for password hashing</li>
+          <li><strong>Authentication:</strong> JWT, bcrypt for password hashing</li>
         </ul>
-      </section>
-
-      <section>
-        <h3>About the Developer</h3>
-        <p>
-          [Add information about yourself here - your background, interests, or what you're
-          currently learning/working on.]
-        </p>
       </section>
 
       <section>
@@ -55,10 +59,9 @@ function About() {
         <h3>Contact & Links</h3>
         <p>I'd love to hear from you! You can reach me through:</p>
         <ul>
-          <li><strong>Email:</strong> [your-email@example.com]</li>
-          <li><strong>GitHub:</strong> <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" className="legal-link">[Your GitHub Profile]</a></li>
-          <li><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer" className="legal-link">[Your LinkedIn Profile]</a></li>
-          <li><strong>Portfolio:</strong> <a href="https://yourportfolio.com" target="_blank" rel="noopener noreferrer" className="legal-link">[Your Portfolio]</a></li>
+          <li><strong>Email:</strong> lukefas6@gmail.com</li>
+          <li><strong>GitHub:</strong> <a href="https://github.com/LukeFasanello" target="_blank" rel="noopener noreferrer" className="legal-link">https://github.com/LukeFasanello</a></li>
+          <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/lukefasanello/" target="_blank" rel="noopener noreferrer" className="legal-link">https://www.linkedin.com/in/lukefasanello/</a></li>
         </ul>
       </section>
 
@@ -67,13 +70,6 @@ function About() {
         <p>
           Found a bug or have a feature suggestion? I welcome feedback! Please feel free
           to reach out through any of the contact methods above.
-        </p>
-      </section>
-
-      <section>
-        <h3>Acknowledgments</h3>
-        <p>
-          [Optional: Thank any resources, tutorials, or people who helped you build this project.]
         </p>
       </section>
     </div>
