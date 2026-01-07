@@ -36,7 +36,8 @@ app.use('/api/auth/', authLimiter); // Stricter limit for auth routes
 // Other Middleware
 app.use(cors({
   origin: ['http://localhost:5173', 'http://192.168.1.189:5173', 'http://192.168.2.138:5173',
-    'https://main.d13441kohglj02.amplifyapp.com', 'https://mood-index-backend.onrender.com'
+    'https://main.d13441kohglj02.amplifyapp.com', 'https://mood-index-backend.onrender.com',
+    'https://moodindex.app', 'https://www.moodindex.app'
   ],
   credentials: true
 }));
